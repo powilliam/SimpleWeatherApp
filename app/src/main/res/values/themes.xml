@@ -1,0 +1,37 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SimpleWeatherApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/backgroundColor</item>
+        <item name="colorOnPrimary">@color/onBackgroundColor</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/backgroundColor</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Customize your theme here. -->
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+    </style>
+    
+    <style name="Theme.SimpleWeatherApp.ExtendedFloatingActionButton"
+        parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="backgroundTint">@color/surfaceColor</item>
+        <item name="iconTint">@color/onSurfaceColor</item>
+        <item name="iconPadding">12sp</item>
+        <item name="android:textAppearance">
+            @style/TextAppearance.SimpleWeatherApp.ExtendedFloatingActionButton
+        </item>
+    </style>
+
+    <style name="TextAppearance.SimpleWeatherApp.ExtendedFloatingActionButton" parent="">
+        <item name="fontFamily">@font/open_sans_semibold</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.SimpleWeatherApp.TemperatureStyle" parent="">
+        <item name="fontFamily">@font/open_sans</item>
+        <item name="android:textSize">52sp</item>
+        <item name="android:textColor">@color/onBackgroundColor</item>
+    </style>
+</resources>
