@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Simple Weather</string>
     <string name="refresh_weather_data">Refresh weather data</string>
-    <string name="refresh">Refresh</string>
-    <string name="toast_text">Getting fresh weather data</string>
     <string name="permission_alert_dialog_title">Location permission is needed</string>
     <string name="permission_alert_dialog_message">We need your permission to get weather details based on your current location. Unfortunately without it, this app cannot work</string>
-    <string name="permission_alert_positive_button">OK, I will grant it</string>
+    <string name="permission_alert_positive_button">Grant it</string>
     <string name="temperature">%s°C</string>
-    <string name="weather_service_unavailable">Weather Service unavailable</string>
+    <string name="thermal_sensation">Feeling like %s°</string>
+    <string name="weather_service_unavailable">Check if you have an internet connection</string>
+    <string name="location_service_unavailable">Check if your GPS is enabled</string>
 </resources>

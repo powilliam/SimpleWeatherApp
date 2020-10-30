@@ -5,6 +5,7 @@
     tools:context=".MainActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -12,29 +13,51 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/temperature"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loading_animation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="23°C"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextAppearance.SimpleWeatherApp.TemperatureStyle"/>
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading_location" />
+
+            <TextView
+                android:id="@+id/temperature"
+                style="@style/TextAppearance.SimpleWeatherApp.TemperatureStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="23°C" />
+
+            <TextView
+                android:id="@+id/thermal_sensation"
+                style="@style/TextAppearance.SimpleWeatherApp.ThermalSensationStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/temperature"
+                app:layout_constraintTop_toBottomOf="@+id/temperature"
+                tools:text="Feeling like 31°" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/refresh_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
+            android:layout_gravity="top|end"
             android:layout_margin="16dp"
-            android:text="@string/refresh"
             android:contentDescription="@string/refresh_weather_data"
-            app:icon="@drawable/ic_baseline_refresh_24"
+            android:src="@drawable/ic_baseline_refresh_24"
+            app:fabSize="mini"
             app:showMotionSpec="@android:anim/slide_in_left"
             app:hideMotionSpec="@android:anim/slide_out_right"
-            style="@style/Theme.SimpleWeatherApp.ExtendedFloatingActionButton"/>
+            style="@style/Theme.SimpleWeatherApp.FloatingActionButton"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
