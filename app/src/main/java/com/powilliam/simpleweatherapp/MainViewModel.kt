@@ -10,38 +10,28 @@ import com.powilliam.simpleweatherapp.models.Coordinates
 import com.powilliam.simpleweatherapp.models.Weather
 import com.powilliam.simpleweatherapp.repositories.WeatherRepository
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
+// TODO Implements data persistence with ROOM database to store weather details
 class MainViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
-    private var coordinates: MutableLiveData<Coordinates> = MutableLiveData()
-    private var _weather: MutableLiveData<Weather> = MutableLiveData()
+    private val _hasGetCurrentWeatherDetailsFailed: MutableLiveData<Boolean> = MutableLiveData()
+    val hasGetCurrentWeatherDetailsFailed: LiveData<Boolean>
+        get() = _hasGetCurrentWeatherDetailsFailed
+    private val _weather: MutableLiveData<Weather> = MutableLiveData()
     val weather: LiveData<Weather>
         get() = _weather
-    private var _isLoadingWeatherDetails: MutableLiveData<Boolean> = MutableLiveData()
-    val isLoadingWeatherDetails: LiveData<Boolean>
-        get() = _isLoadingWeatherDetails
 
-    init {
-        _isLoadingWeatherDetails.value = true
-    }
-
-    fun updateCoordinatesWith(latitude: Double, longitude: Double) {
-        coordinates.value = Coordinates(latitude, longitude)
-    }
-
-    fun getCurrentWeatherDetails() = viewModelScope.launch {
-        _isLoadingWeatherDetails.value = true
-        weatherRepository
-            .getCurrentWeatherDetails(coordinates.value!!)
-            .let { _weather.value = it }
-        _isLoadingWeatherDetails.value = false
-    }
-
-    fun getWeatherDetailsFromLastKnownLocation(location: Location) = viewModelScope.launch {
-        _isLoadingWeatherDetails.value = true
-        val coordinates = Coordinates(location.latitude, location.longitude)
-        weatherRepository
-            .getCurrentWeatherDetails(coordinates)
-            .let { _weather.value = it }
-        _isLoadingWeatherDetails.value = false
+    fun getWeatherDetailsFromLocation(location: Location) = viewModelScope.launch {
+        try {
+            val coordinates = Coordinates(location.latitude, location.longitude)
+            weatherRepository
+                    .getWeatherDetailsFromCoordinates(coordinates)
+                    .let {
+                        _weather.value = it
+                        _hasGetCurrentWeatherDetailsFailed.value = false
+                    }
+        } catch (e: Exception) {
+            _hasGetCurrentWeatherDetailsFailed.value = true
+        }
     }
 }
