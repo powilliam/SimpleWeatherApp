@@ -30,4 +30,8 @@ class MainViewModel(
                 .let { _weather.value = it }
         _isGettingWeatherDetails.value = false
     }
+
+    fun onHavingInternetOrProvidersUnavailable() {
+        _isGettingWeatherDetails.value = false
+    }
 }

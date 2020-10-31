@@ -32,16 +32,10 @@ class MainActivity : AppCompatActivity() {
         val weatherService = OpenWeatherService.create()
         val getWeatherDetailsFromLocationUseCase =
                 GetWeatherDetailsFromLocationUseCase(weatherService)
-        val viewModelFactory = MainViewModelFactory(
-                getWeatherDetailsFromLocationUseCase,
-        )
+        val viewModelFactory = MainViewModelFactory(getWeatherDetailsFromLocationUseCase)
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MainViewModel::class.java)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-    }
-
-    override fun onStart() {
-        super.onStart()
         observeWeather()
         observeIsGettingWeatherDetails()
         setRefreshButtonClickListener()
@@ -79,11 +73,13 @@ class MainActivity : AppCompatActivity() {
     private fun getWeatherDetailsFromCurrentLocation() {
         when {
             !hasInternetConnection() -> {
+                viewModel.onHavingInternetOrProvidersUnavailable()
                 Snackbar.make(binding.coordinatorLayout,
                         R.string.internet_unavailable, Snackbar.LENGTH_LONG)
                         .show()
             }
             !hasLocationProvidersEnabled() -> {
+                viewModel.onHavingInternetOrProvidersUnavailable()
                 Snackbar.make(binding.coordinatorLayout,
                         R.string.location_service_unavailable, Snackbar.LENGTH_LONG)
                         .show()
