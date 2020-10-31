@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         when {
             !hasInternetConnection() -> {
                 Snackbar.make(binding.coordinatorLayout,
-                        R.string.weather_service_unavailable, Snackbar.LENGTH_LONG)
+                        R.string.internet_unavailable, Snackbar.LENGTH_LONG)
                         .show()
             }
             !hasLocationProvidersEnabled() -> {

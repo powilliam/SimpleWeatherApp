@@ -1,6 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.SimpleWeatherApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary Color. -->
+        <item name="colorPrimary">@color/backgroundColor</item>
+        <item name="colorOnPrimary">@color/onBackgroundColor</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/backgroundColor</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -8,16 +11,36 @@
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:navigationBarColor">@color/backgroundColor</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="materialAlertDialogTheme">
+            @style/ThemeOverlay.SimpleWeatherApp.MaterialAlertDialog
+        </item>
     </style>
     
     <style name="Theme.SimpleWeatherApp.FloatingActionButton"
         parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/surfaceColor</item>
         <item name="iconTint">@color/onSurfaceColor</item>
-        <item name="iconPadding">12sp</item>
         <item name="android:textAppearance">
             @style/TextAppearance.SimpleWeatherApp.FloatingActionButton
         </item>
+    </style>
+    
+    <style name="ThemeOverlay.SimpleWeatherApp.MaterialAlertDialog" 
+        parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">
+            @style/Widget.SimpleWeatherApp.Button
+        </item>
+    </style>
+
+    <style name="Widget.SimpleWeatherApp.Button"
+        parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.SimpleWeatherApp.Button.TextButton
+        </item>
+    </style>
+    
+    <style name="ThemeOverlay.SimpleWeatherApp.Button.TextButton" parent="">
+        <item name="colorPrimary">@color/onBackgroundColor</item>
     </style>
 
     <style name="TextAppearance.SimpleWeatherApp.FloatingActionButton" parent="">
@@ -27,13 +50,13 @@
     </style>
 
     <style name="TextAppearance.SimpleWeatherApp.TemperatureStyle" parent="">
-        <item name="fontFamily">@font/open_sans</item>
-        <item name="android:textSize">52sp</item>
+        <item name="fontFamily">@font/open_sans_light</item>
+        <item name="android:textSize">56sp</item>
         <item name="android:textColor">@color/onBackgroundColor</item>
     </style>
 
     <style name="TextAppearance.SimpleWeatherApp.ThermalSensationStyle" parent="">
-        <item name="fontFamily">@font/open_sans</item>
+        <item name="fontFamily">@font/open_sans_light</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/onBackgroundColor</item>
     </style>

@@ -6,6 +6,6 @@
     <string name="permission_alert_positive_button">Grant it</string>
     <string name="temperature">%s°C</string>
     <string name="thermal_sensation">Feeling like %s°</string>
-    <string name="weather_service_unavailable">Check if you have an internet connection</string>
+    <string name="internet_unavailable">Check if you have an internet connection</string>
     <string name="location_service_unavailable">Check if your GPS is enabled</string>
 </resources>
