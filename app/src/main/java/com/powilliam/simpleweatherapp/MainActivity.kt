@@ -118,8 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun hasInternetConnection(): Boolean {
         val manager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return manager.activeNetworkInfo != null
-                && manager.activeNetworkInfo!!.isConnected
+        return manager.activeNetwork != null
     }
 
     private fun hasLocationProvidersEnabled(): Boolean {
