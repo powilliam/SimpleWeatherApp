@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.powilliam.simpleweatherapp.models.Coordinates
 import com.powilliam.simpleweatherapp.models.Weather
-import com.powilliam.simpleweatherapp.repositories.WeatherRepository
+import com.powilliam.simpleweatherapp.usecases.GetWeatherDetailsFromLocationUseCase
 import kotlinx.coroutines.launch
 
-// TODO Implements data persistence with ROOM database to store weather details
-class MainViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
+class MainViewModel(
+        private val getWeatherDetailsFromLocationUseCase: GetWeatherDetailsFromLocationUseCase,
+) : ViewModel() {
     private val _weather: MutableLiveData<Weather> = MutableLiveData()
     val weather: LiveData<Weather>
         get() = _weather
@@ -19,11 +19,14 @@ class MainViewModel(private val weatherRepository: WeatherRepository) : ViewMode
     val isGettingWeatherDetails: LiveData<Boolean>
         get() = _isGettingWeatherDetails
 
-    fun getWeatherDetailsFromLocation(location: Location) = viewModelScope.launch {
-        val coordinates = Coordinates(location.latitude, location.longitude)
+    init {
         _isGettingWeatherDetails.value = true
-        weatherRepository
-                .getWeatherDetailsFromCoordinates(coordinates)
+    }
+
+    fun getWeatherDetailsFromCurrentLocation(location: Location) = viewModelScope.launch {
+        _isGettingWeatherDetails.value = true
+        getWeatherDetailsFromLocationUseCase
+                .execute(location)
                 .let { _weather.value = it }
         _isGettingWeatherDetails.value = false
     }

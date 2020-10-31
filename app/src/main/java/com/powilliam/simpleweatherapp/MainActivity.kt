@@ -8,7 +8,7 @@ import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
@@ -18,8 +18,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.powilliam.simpleweatherapp.databinding.ActivityMainBinding
 import com.powilliam.simpleweatherapp.models.Weather
-import com.powilliam.simpleweatherapp.repositories.WeatherRepository
 import com.powilliam.simpleweatherapp.services.OpenWeatherService
+import com.powilliam.simpleweatherapp.usecases.GetWeatherDetailsFromLocationUseCase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -30,18 +30,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val weatherService = OpenWeatherService.create()
-        val weatherRepository = WeatherRepository(weatherService)
-        viewModel = ViewModelProvider(this, MainViewModelFactory(weatherRepository))
+        val getWeatherDetailsFromLocationUseCase =
+                GetWeatherDetailsFromLocationUseCase(weatherService)
+        val viewModelFactory = MainViewModelFactory(
+                getWeatherDetailsFromLocationUseCase,
+        )
+        viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MainViewModel::class.java)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
         observeWeather()
         observeIsGettingWeatherDetails()
         setRefreshButtonClickListener()
-        getWeatherDetailsFromCurrentLocation()
-    }
-
-    override fun onResume() {
-        super.onResume()
         getWeatherDetailsFromCurrentLocation()
     }
 
@@ -62,9 +65,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // TODO Implements a fastest way to get the current location
-    //  it could be done using a cached location
-    //  and letting the user choose when they wants to refresh it
+    private fun hasInternetConnection(): Boolean {
+        val manager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return manager.activeNetwork != null
+    }
+
+    private fun hasLocationProvidersEnabled(): Boolean {
+        val manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
     private fun getWeatherDetailsFromCurrentLocation() {
         when {
             !hasInternetConnection() -> {
@@ -77,24 +88,25 @@ class MainActivity : AppCompatActivity() {
                         R.string.location_service_unavailable, Snackbar.LENGTH_LONG)
                         .show()
             }
-            ContextCompat.checkSelfPermission(this,
+            ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-            -> {
+                    && ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
                 val location = fusedLocationClient.getCurrentLocation(
-                        LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY,
+                        LocationRequest.PRIORITY_HIGH_ACCURACY,
                         object : CancellationToken() {
                             override fun isCancellationRequested(): Boolean {
                                 return false
                             }
                             override fun onCanceledRequested(
-                                    p0: OnTokenCanceledListener): CancellationToken {
+                                    p0: OnTokenCanceledListener
+                            ): CancellationToken {
                                 return this
                             }
-                        })
+                        }
+                )
                 location.addOnSuccessListener {
-                    viewModel.getWeatherDetailsFromLocation(it)
+                    viewModel.getWeatherDetailsFromCurrentLocation(it)
                 }
             }
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -116,17 +128,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun hasInternetConnection(): Boolean {
-        val manager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return manager.activeNetwork != null
-    }
-
-    private fun hasLocationProvidersEnabled(): Boolean {
-        val manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    }
-
     private fun observeWeather() {
         viewModel.weather.observe(this) { weather: Weather? ->
             weather?.let {
@@ -145,11 +146,13 @@ class MainActivity : AppCompatActivity() {
                     binding.temperature.visibility = View.GONE
                     binding.thermalSensation.visibility = View.GONE
                     binding.loadingAnimation.visibility = View.VISIBLE
+                    binding.loadingAnimation.playAnimation()
                 }
                 else -> {
                     binding.temperature.visibility = View.VISIBLE
                     binding.thermalSensation.visibility = View.VISIBLE
                     binding.loadingAnimation.visibility = View.GONE
+                    binding.loadingAnimation.pauseAnimation()
                 }
             }
         }
