@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.OnTokenCanceledListener
@@ -18,23 +17,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.powilliam.simpleweatherapp.databinding.ActivityMainBinding
 import com.powilliam.simpleweatherapp.models.Weather
-import com.powilliam.simpleweatherapp.services.OpenWeatherService
-import com.powilliam.simpleweatherapp.usecases.GetWeatherDetailsFromLocationUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    @Inject lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val weatherService = OpenWeatherService.create()
-        val getWeatherDetailsFromLocationUseCase =
-                GetWeatherDetailsFromLocationUseCase(weatherService)
-        val viewModelFactory = MainViewModelFactory(getWeatherDetailsFromLocationUseCase)
-        viewModel = ViewModelProvider(this, viewModelFactory)
-            .get(MainViewModel::class.java)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         observeWeather()
         observeIsGettingWeatherDetails()

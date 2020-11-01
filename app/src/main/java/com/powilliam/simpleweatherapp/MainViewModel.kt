@@ -8,8 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.powilliam.simpleweatherapp.models.Weather
 import com.powilliam.simpleweatherapp.usecases.GetWeatherDetailsFromLocationUseCase
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(
+class MainViewModel @Inject constructor(
         private val getWeatherDetailsFromLocationUseCase: GetWeatherDetailsFromLocationUseCase,
 ) : ViewModel() {
     private val _weather: MutableLiveData<Weather> = MutableLiveData()
@@ -18,10 +19,6 @@ class MainViewModel(
     private val _isGettingWeatherDetails: MutableLiveData<Boolean> = MutableLiveData()
     val isGettingWeatherDetails: LiveData<Boolean>
         get() = _isGettingWeatherDetails
-
-    init {
-        _isGettingWeatherDetails.value = true
-    }
 
     fun getWeatherDetailsFromCurrentLocation(location: Location) = viewModelScope.launch {
         _isGettingWeatherDetails.value = true
