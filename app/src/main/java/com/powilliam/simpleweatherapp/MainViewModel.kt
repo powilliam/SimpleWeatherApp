@@ -1,17 +1,16 @@
 package com.powilliam.simpleweatherapp
 
 import android.location.Location
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import com.powilliam.simpleweatherapp.models.Weather
 import com.powilliam.simpleweatherapp.usecases.GetWeatherDetailsFromLocationUseCase
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class MainViewModel @Inject constructor(
+class MainViewModel @ViewModelInject constructor(
         private val getWeatherDetailsFromLocationUseCase: GetWeatherDetailsFromLocationUseCase,
+        @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _weather: MutableLiveData<Weather> = MutableLiveData()
     val weather: LiveData<Weather>
