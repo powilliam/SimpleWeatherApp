@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 
 class MainViewModel @ViewModelInject constructor(
         private val getWeatherDetailsFromLocationUseCase: GetWeatherDetailsFromLocationUseCase,
-        @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _weather: MutableLiveData<Weather> = MutableLiveData()
     val weather: LiveData<Weather>

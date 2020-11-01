@@ -4,12 +4,13 @@ import com.powilliam.simpleweatherapp.services.OpenWeatherService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ApplicationComponent::class)
 object OpenWeatherModule {
+    @Singleton
     @Provides
     fun provideOpenWeatherService(): OpenWeatherService {
         return OpenWeatherService
