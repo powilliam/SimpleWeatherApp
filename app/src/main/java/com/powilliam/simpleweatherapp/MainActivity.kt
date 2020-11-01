@@ -7,6 +7,9 @@ import android.location.LocationManager
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.ContextMenu
+import android.view.MenuItem
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -34,7 +37,8 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         observeWeather()
         observeIsGettingWeatherDetails()
-        setRefreshButtonClickListener()
+        setSwipeRefreshLayoutRefreshListener()
+        setToolbarOnMenuItemClickListener()
         getWeatherDetailsFromCurrentLocation()
     }
 
@@ -134,25 +138,27 @@ class MainActivity : AppCompatActivity() {
         viewModel.isGettingWeatherDetails.observe(this) {
             isGettingWeatherDetails: Boolean? ->
             when (isGettingWeatherDetails) {
-                true -> {
-                    binding.temperature.visibility = View.GONE
-                    binding.thermalSensation.visibility = View.GONE
-                    binding.loadingAnimation.visibility = View.VISIBLE
-                    binding.loadingAnimation.playAnimation()
-                }
-                else -> {
-                    binding.temperature.visibility = View.VISIBLE
-                    binding.thermalSensation.visibility = View.VISIBLE
-                    binding.loadingAnimation.visibility = View.GONE
-                    binding.loadingAnimation.pauseAnimation()
-                }
+                true -> binding.swipeRefreshLayout.isRefreshing = true
+                else -> binding.swipeRefreshLayout.isRefreshing = false
             }
         }
     }
 
-    private fun setRefreshButtonClickListener() {
-        binding.refreshButton.setOnClickListener {
+    private fun setSwipeRefreshLayoutRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
             getWeatherDetailsFromCurrentLocation()
+        }
+    }
+
+    private fun setToolbarOnMenuItemClickListener() {
+        binding.toolbar.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.refresh_menu -> {
+                    getWeatherDetailsFromCurrentLocation()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
