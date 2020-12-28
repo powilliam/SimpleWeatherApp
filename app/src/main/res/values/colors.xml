@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="backgroundColor">#F3F3F4</color>
-    <color name="surfaceColor">#FAFAFB</color>
-    <color name="onBackgroundColor">#3F3F3F</color>
+    <color name="primaryColor">#651FFF</color>
+    <color name="onPrimaryColor">#FFFFFF</color>
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="surfaceColor">#FFFFFF</color>
+    <color name="onBackgroundColor">#000000</color>
     <color name="onSurfaceColor">#000000</color>
 </resources>
