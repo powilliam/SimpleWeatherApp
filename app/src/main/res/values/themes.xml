@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.SimpleWeatherApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary Color. -->
-        <item name="colorPrimary">@color/backgroundColor</item>
-        <item name="colorOnPrimary">@color/onBackgroundColor</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorOnPrimary">@color/onPrimaryColor</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/backgroundColor</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -11,53 +11,93 @@
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:navigationBarColor">@color/backgroundColor</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
-        <item name="materialAlertDialogTheme">
-            @style/ThemeOverlay.SimpleWeatherApp.MaterialAlertDialog
-        </item>
-    </style>
-    
-    <style name="Theme.SimpleWeatherApp.FloatingActionButton"
-        parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="backgroundTint">@color/surfaceColor</item>
-        <item name="iconTint">@color/onSurfaceColor</item>
-        <item name="android:textAppearance">
-            @style/TextAppearance.SimpleWeatherApp.FloatingActionButton
-        </item>
-    </style>
-    
-    <style name="ThemeOverlay.SimpleWeatherApp.MaterialAlertDialog" 
-        parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="buttonBarPositiveButtonStyle">
-            @style/Widget.SimpleWeatherApp.Button
-        </item>
+        <item name="toolbarStyle">@style/Widget.SimpleWeatherApp.Toolbar</item>
     </style>
 
-    <style name="Widget.SimpleWeatherApp.Button"
-        parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="materialThemeOverlay">
-            @style/ThemeOverlay.SimpleWeatherApp.Button.TextButton
-        </item>
-    </style>
-    
-    <style name="ThemeOverlay.SimpleWeatherApp.Button.TextButton" parent="">
-        <item name="colorPrimary">@color/onBackgroundColor</item>
+    <style name="Widget.SimpleWeatherApp.Toolbar"
+        parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.SimpleWeatherApp.Toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.MdcTypographyStyles.Headline6</item>
     </style>
 
-    <style name="TextAppearance.SimpleWeatherApp.FloatingActionButton" parent="">
-        <item name="fontFamily">@font/open_sans_semibold</item>
-        <item name="textAllCaps">false</item>
-        <item name="android:textSize">16sp</item>
+    <style name="ThemeOverlay.SimpleWeatherApp.Toolbar" parent="">
+        <item name="colorPrimary">@color/backgroundColor</item>
+        <item name="colorOnPrimary">@color/onBackgroundColor</item>
     </style>
 
-    <style name="TextAppearance.SimpleWeatherApp.TemperatureStyle" parent="">
-        <item name="fontFamily">@font/open_sans_light</item>
-        <item name="android:textSize">56sp</item>
-        <item name="android:textColor">@color/onBackgroundColor</item>
+    <style name="TextAppearance.MdcTypographyStyles.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">101sp</item>
     </style>
 
-    <style name="TextAppearance.SimpleWeatherApp.ThermalSensationStyle" parent="">
-        <item name="fontFamily">@font/open_sans_light</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/onBackgroundColor</item>
+    <style name="TextAppearance.MdcTypographyStyles.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">63sp</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">50sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">10sp</item>
     </style>
 </resources>

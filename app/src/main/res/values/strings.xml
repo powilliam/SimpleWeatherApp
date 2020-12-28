@@ -4,8 +4,9 @@
     <string name="permission_alert_dialog_title">Location permission is needed</string>
     <string name="permission_alert_dialog_message">We need your permission to get weather details based on your current location. Unfortunately without it, this app cannot work</string>
     <string name="permission_alert_positive_button">Grant it</string>
-    <string name="temperature">%s°C</string>
-    <string name="thermal_sensation">Feeling like %s°</string>
+    <string name="temperature">It\'s %s° outside</string>
+    <string name="thermal_sensation">But feeling like %s°</string>
     <string name="internet_unavailable">Check if you have an internet connection</string>
     <string name="location_service_unavailable">Check if your GPS is enabled</string>
+    <string name="show_details">SHOW DETAILS</string>
 </resources>
